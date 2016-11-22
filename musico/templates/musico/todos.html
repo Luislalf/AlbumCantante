@@ -1,0 +1,41 @@
+{% extends 'musico/base.html' %}
+{% load staticfiles %}
+
+{% block titulo %}
+	Principal
+{% endblock titulo %}
+
+{% block maincontent %}
+
+<div class="row well">
+{% for fot in musico reversed %}
+<div class="col-md-12">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ fot.titulo }}
+				{% if  fot.favorito %}
+					<a href="#" class="top-menu"><span class="glyphicon	glyphicon-star"></span></a>
+				{% else %}
+					<a href="#" class="top-menu"><span class="glyphicon	glyphicon-star-empty"></span></a>
+				{% endif %}
+			</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-xs-6 col-md-4">
+				<a  href="{% url "musico.views.vista_comentario" pk=fot.pk %}" >
+					<img class="img-rounded" src="{% static fot.foto %}" style="width:200px; height:200px" />
+				</a>
+			</div>
+			<div class="col-xs-12 col-md-8">
+				<p class="bg-info">{{ fot.fecha_pulic }}</p>
+				<p>Músico: {{ fot.musico }}</p>
+				<p>Descripción: {{ fot.descripcion }}</p>
+				<p>Lanzamiento: {{ fot.fecha_lanzamiento }}</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endfor %}
+</div>
+{% endblock maincontent %}

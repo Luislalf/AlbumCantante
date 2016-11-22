@@ -1,0 +1,23 @@
+{% extends 'musico/base.html' %}
+{% load staticfiles %}
+
+{% block titulo  %}
+	Musico - {{ musico.nombre }}
+{% endblock titulo %}
+
+{% block maincontent %}
+<div class="row well">
+{% for p in musico.foto_set.all %}
+<div class="col-sm-6 col-md-4">
+<div class="thumbnail">
+      <img src="{% static p.foto.url %}" alt="Detalles">
+      <div class="caption">
+        <h3>{{ p.titulo }}</h3>
+        <p>{{ p.descripcion|truncatewords:"5" }}</p>
+        <p><a href="{% url "musico.views.vista_comentario" pk=p.pk %}" class="btn btn-primary" role="button">Ver Mas...</a></p>
+      </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
