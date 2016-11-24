@@ -2,12 +2,12 @@
 {% load staticfiles %}
 
 {% block titulo  %}
-	Musico - {{ musico.nombre }}
+	Músicos - {{ musico.nombre }}
 {% endblock titulo %}
 
 {% block maincontent %}
 <div class="row well">
-{% for p in musico.foto_set.all %}
+{% for p in musico.album_set.all %}
 <div class="col-sm-6 col-md-4">
 <div class="thumbnail">
       <img src="{% static p.foto.url %}" alt="Detalles">

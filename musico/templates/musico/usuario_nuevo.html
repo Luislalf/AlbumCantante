@@ -5,17 +5,16 @@
 {% endblock titulo %}
 
 {% block maincontent %}
-<div class="row">
-
     <form method="POST" class="form-4">{% csrf_token %}
-    	<h1>Nuevo Usuario</h1>
-
-        {{ formulario.as_p }}
-
+  <div class="row well"><strong>
+    	<h2 ALIGN=center >
+          Nuevo Usuario
+      </h2>
+          {{ formulario.as_p }}
     	<p>
-        	<input type="submit" name="submit" value="Registrar">
+        	<input style="color: white" type="submit" name="submit" value="Registrar">
     	</p>
+  </div>
     </form>
 
-</div>
 {% endblock maincontent %}

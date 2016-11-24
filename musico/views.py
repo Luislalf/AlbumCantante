@@ -11,11 +11,13 @@ from django.contrib.auth import login, authenticate, logout
 
 def vista_Albums(request):
 	Albumss = Album.objects.all()
-	return render(request, 'musico/todos.html',{'musico': Albumss})
+	musicos = Musico.objects.all()
+	return render(request, 'musico/todos.html',{'musico': Albumss,'cate':musicos})
 
 def vista_general_Albums(request):
 	Albumss = Album.objects.all()
-	return render(request, 'musico/vista_general.html',{'musico': Albumss})
+	musicos = Musico.objects.all()
+	return render(request, 'musico/vista_general.html',{'musico': Albumss,'cate':musicos})
 
 def musico_detalle(request,pk):
 	music =  get_object_or_404(Musico,pk = pk)
@@ -24,7 +26,7 @@ def musico_detalle(request,pk):
 
 def vista_comentario(request,pk):
 	comentar = get_object_or_404(Album,pk = pk)
-	cat = Album.objects.all()
+	cat = Musico.objects.all()
 	if request.method == "POST":
 		comentario = CometarioForm(request.POST)
 		if comentario.is_valid():
@@ -40,14 +42,13 @@ def vista_comentario(request,pk):
 @login_required(login_url='/ingresar')
 def nuevo_album(request):
 	cat = Musico.objects.all()
-
 	if request.method == "POST":
 		formulario = AlbumForm(request.POST, request.FILES)
 		if formulario.is_valid():
-			formulario = formulario.save(commit=False)
-			formulario.autor = request.user
-			formulario.save()
-			return redirect('musico.views.vista_comentario', pk=formulario.pk)
+			formularios = formulario.save(commit=False)
+			formularios.autor = request.user
+			formularios.save()
+			return redirect('musico.views.vista_comentario', pk=formularios.pk)
 	else:
 		formulario = AlbumForm()
 	return render(request, 'musico/editar_album.html', {'formulario': formulario,'cate':cat})
@@ -112,12 +113,10 @@ def cerrar_sesion(request):
 @login_required(login_url='/ingresar')
 def eliminar_comentario(request,pk,pk2):
 	coment = get_object_or_404(Cometario, pk = pk).delete()
-
 	return redirect('musico.views.vista_comentario', pk=pk2)
 
 
 @login_required(login_url='/ingresar')
 def eliminar_foto(request,pk):
 	coment = get_object_or_404(Album, pk = pk).delete()
-
 	return redirect('musico.views.vista_Albums')

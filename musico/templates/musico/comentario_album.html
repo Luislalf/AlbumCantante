@@ -18,10 +18,14 @@
 		{% endif %}
 	</div>
 	<div class="col-xs-5 well">
-		<div>{{ foto.autor }} <br> {{foto.categoria}}</div>
-		<p>{{foto.fecha_pulic}}</p>
-		<h4>{{foto.favorito}}</h4>
-		<p>{{foto.descripcion}}</p>
+		<strong>
+		<div>Posteado por Usuario: {{ foto.autor }} <br> {{foto.categoria}}</div>
+		<br></br>
+		<br><h2> <p ALIGN=center>Datos del Album</h2></p>
+		<p>Músico: {{foto.musico}}</p>
+		<p>Titulo: {{foto.titulo}}</p>
+		<p>Lanzamiento: {{foto.fecha_lanzamiento}}</p>
+		<p>Descripción: {{foto.descripcion}}</p>
 		<hr>
 			{% for fot in foto.cometario_set.all %}
 			<div class="un-comentario">
@@ -34,7 +38,10 @@
 		<p><form method="POST" class="comentario-form">{% csrf_token %}
 			Comentario:
 			{{ formulario.cometario }}
+			<p ALIGN=center>
 			<button type="submit" class="save btn btn-success"><span class="glyphicon glyphicon-envelope"></span> Comentar</button>
+			</p>
+		</br>
 		</form></p>
 
 	</div>
