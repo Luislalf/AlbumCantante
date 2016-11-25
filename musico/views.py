@@ -38,6 +38,20 @@ def vista_comentario(request,pk):
 		comentario = CometarioForm(instance=comentar)
 	return render(request, 'musico/comentario_album.html', {'foto': comentar,'formulario':comentario,'cate':cat})
 
+def vista_comentario2(request,pk):
+	comentar = get_object_or_404(Musico,pk = pk)
+	cat = Musico.objects.all()
+	if request.method == "POST":
+		comentario = CometarioForm2(request.POST)
+		if comentario.is_valid():
+			comentario = comentario.save(commit=False)
+			comentario.foto = comentar
+			comentario.save()
+			return redirect('musico.views.vista_comentario2', pk=pk)
+	else:
+		comentario = CometarioForm(instance=comentar)
+	return render(request, 'musico/comentario_musico.html', {'foto': comentar,'formulario':comentario,'cate':cat})
+
 
 @login_required(login_url='/ingresar')
 def nuevo_album(request):
@@ -67,6 +81,35 @@ def editar_albumm(request, pk):
 	else:
 		form = AlbumForm(instance=musico)
 	return render(request, 'musico/editar_album.html', {'formulario': form,'cate':cat})
+
+@login_required(login_url='/ingresar')
+def nuevo_musico(request):
+	cat = Musico.objects.all()
+	if request.method == "POST":
+		formulario = MusicoForm(request.POST, request.FILES)
+		if formulario.is_valid():
+			formularios = formulario.save(commit=False)
+			formularios.autor = request.user
+			formularios.save()
+			return redirect('musico.views.vista_comentario', pk=formularios.pk)
+	else:
+		formulario = MusicoForm()
+	return render(request, 'musico/editar_musico.html', {'formulario': formulario,'cate':cat})
+
+@login_required(login_url='/ingresar')
+def editar_musico(request, pk):
+	musico = get_object_or_404(Musico, pk = pk)
+	cat = Musico.objects.all()
+	if request.method == "POST":
+		form = MusicoForm(request.POST, request.FILES,instance=musico)
+		if form.is_valid():
+			foto = form.save(commit=False)
+			foto.autor = request.user
+			foto.save()
+			return redirect('musico.views.vista_comentario', pk=foto.pk)
+	else:
+		form = MusicoForm(instance=musico)
+	return render(request, 'musico/editar_musico.html', {'formulario': form,'cate':cat})
 
 
 def nuevo_usuario(request):

@@ -1,0 +1,50 @@
+{% extends 'musico/base.html' %}
+{% load staticfiles %}
+
+{% block titulo %}
+	{{foto.titulo}}
+{% endblock titulo %}
+
+{% block maincontent %}
+<div class="row well">
+	<div class="col-xs-7">
+		<p class="text-primary">{{foto.titulo}}</p>
+		<img class="img-responsive img-rounded" src="{% static foto.foto %}" style="width:600px; height:500px" >
+		{% if request.user.is_authenticated %}
+		<p>
+			<a href="{% url "musico.views.editar_musico" pk=foto.pk %}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
+			<a href="{% url "musico.views.eliminar_foto" pk=foto.pk %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+		</p>
+		{% endif %}
+	</div>
+	<div class="col-xs-5 well">
+		<strong>
+		<div>Posteado por Usuario: {{foto.musico}}</div>
+		<br></br>
+		<br><h2> <p ALIGN=center>Datos del Album</h2></p>
+		<p>Músico: {{foto.nombre}}</p>
+		<p>Titulo: {{foto.apellido}}</p>
+		<p>Lanzamiento: {{foto.instrumento}}</p>
+		<p>Descripción: {{foto.direccion}}</p>
+		<hr>
+			{% for fot in foto.cometario_set.all %}
+			<div class="un-comentario">
+				{{ fot.cometario }}
+				{% if request.user.is_authenticated %}
+				<a href="{% url "musico.views.eliminar_comentario" pk=fot.pk pk2=foto.pk %}" class="cerrar-comentario btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+				{% endif %}
+			</div>
+			{% endfor %}
+		<p><form method="POST" class="comentario-form">{% csrf_token %}
+			Comentario:
+			{{ formulario.cometario }}
+			<p ALIGN=center>
+			<button type="submit" class="save btn btn-success"><span class="glyphicon glyphicon-envelope"></span> Comentar</button>
+			</p>
+		</br>
+		</form></p>
+
+	</div>
+</div>
+
+{% endblock maincontent %}

@@ -1,18 +1,18 @@
 {% extends 'musico/base.html' %}
 
 {% block titulo %}
-	Registro Album
+	Registro Músico
 {% endblock titulo %}
 
 		{% block maincontent %}
 				<div class="row well">
     		<form enctype="multipart/form-data" method="POST" class="form-4">{% csrf_token %}
-					<h2 ALIGN=center>Nuevo Album</h2>
+					<h2 ALIGN=center>Nuevo Músico</h2>
 					<h2></h2>
     				{{ formulario.as_p }}
 						<p ALIGN=center>
     				<button type="submit" class="save btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-						</p>
+					</p>
 				</form>
 				</div>
 		{% endblock maincontent %}
